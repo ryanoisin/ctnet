@@ -1,0 +1,13 @@
+Package: ctnet
+Type: Package
+Title: Continuous Time Dynamical Network Analysis
+Version: 0.1.0
+Author: Oisín Ryan
+Maintainer: Oisín Ryan <o.ryan@uu.nl>
+Description: A package to help with continuous-time network analysis
+License: GPL-3 + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: expm, combinat 
+RdMacros: Rdpack
+RoxygenNote: 7.1.1
