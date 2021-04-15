@@ -4,10 +4,18 @@ Title: Continuous Time Dynamical Network Analysis
 Version: 0.1.0
 Author: Oisín Ryan
 Maintainer: Oisín Ryan <o.ryan@uu.nl>
-Description: A package to help with continuous-time network analysis
+Description: A package to help with continuous-time network analysis. 
+  Estimation of CT-VAR(1) models should be conducted with ctsem or an alternative package. This package processes output from estimated models,
+  and allows  researchers to a) obtain estimated path-specific effects and centrality measures b) quantify the uncertainty around those measures 
+  in the form of confidence/credible intervals (depending on the procedure used to estimated the model with `ctsem`) c) to simulate press and pulse interventions based on the estimated model and d) plot point estimates and credible intervals for different metrics as a function of the time-interval. 
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: expm, combinat 
+Imports: expm, combinat, Rdpack, graphics, stats
 RdMacros: Rdpack
 RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

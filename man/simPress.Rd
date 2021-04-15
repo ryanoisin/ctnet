@@ -24,10 +24,11 @@ a vector representing the value of the CT process after a press intervention to 
 Calculate the effect of a press intervention
 }
 \examples{
+n <- 4
 drift <- matrix(c(-1.2,  .25,     0,  1,
                  1.1, -.5,     0,   0,
                    0,  1.18, -1.2,   0 ,
-                 0, -1.46,     .5, -1.2),4,4,byrow=T)
+                 0, -1.46,     .5, -1.2),n,n, byrow = TRUE)
 
 M = 2; press = 1; start = c(0,M,0,0)
  # Set up the time vector
@@ -46,8 +47,8 @@ M = 2; press = 1; start = c(0,M,0,0)
 # Create plot
 cols <- c("#1B9E77", "#D95F02", "#7570B3", "#E7298A")
 plot.new()
-plot.window()plot.window(xlim=c(0, 5), ylim=c(-1,1))
-for(c in 1:4) lines(y = y_ct[,c], x = y_ct[,5], type = "l", col = cols[c], lwd = lwd)
+plot.window(xlim=c(0, 5), ylim=c(-1,1))
+for(c in 1:4) lines(y = y_ct[,c], x = y_ct[,5], type = "l", col = cols[c], lwd = 2)
 abline(h = 0); axis(1); axis(2); title(xlab = "Time (t)", ylab = "Variable Values")
 
 # To get the new equilibrium plug in a large value for Delta t

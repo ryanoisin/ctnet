@@ -31,8 +31,5 @@ dt = 2
 IV = 1
 DV = 3
 M = 2
-DE(drift=drift,dt=dt,IV=IV,DV=DV,M=M)
-}
-\seealso{
-\code{\link{DE}}
+DE(drift = drift, dt = dt, IV = IV, DV = DV, M = M)
 }

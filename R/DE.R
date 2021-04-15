@@ -7,7 +7,6 @@
 #' @param M index or indices corresponding to the mediators to be intervened on
 #'
 #' @return a scalar direct effect corresponding to a continuous intervention on M
-#' @seealso \code{\link{DE}}
 #' @export
 #' @examples
 #' drift<- matrix(c(-.357, 0, 0,
@@ -17,7 +16,7 @@
 #' IV = 1
 #' DV = 3
 #' M = 2
-#' DE(drift=drift,dt=dt,IV=IV,DV=DV,M=M)
+#' DE(drift = drift, dt = dt, IV = IV, DV = DV, M = M)
 
 DE <- function(drift,dt,IV,DV,M){
   S <- diag(nrow(drift))
