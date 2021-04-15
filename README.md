@@ -1,9 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
 # ctnet
 An `R` package to aid researchers analyse experience sampling data using a Continuous-Time Dynamical Network approach. The package takes CT-VAR model objects estimated using the [`ctsem` package](https://github.com/cdriveraus/ctsem) and processes the output, allowing researchers to a) obtain estimated path-specific effects and centrality measures b) quantify the uncertainty around those measures in the form of confidence/credible intervals (depending on the procedure used to estimated the model with `ctsem`) c) to simulate press and pulse interventions based on the estimated model and d) plot point estimates and credible intervals for different metrics as a function of the time-interval.  
 
