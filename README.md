@@ -12,7 +12,7 @@ The package takes either a drift matrix or estimated CT-VAR model object from th
 
 
 ## Background
-This repository contains an `R` package used by Ryan \& Hamaker (in press)[[PsyArXiv]](https://psyarxiv.com/2ambn/) to aid researchers in conducting dynamical network analysis using continuous-time first-order vector autoregressive models (i.e. the integral solution to linear first-order stochastic differential equations).
+This repository contains an `R` package used by Ryan \& Hamaker (in press) Time to Intervene: A Continuous-Time Approach to Network Analysis and Centrality [[PsyArXiv]](https://psyarxiv.com/2ambn/) to conduct dynamical network analysis using continuous-time first-order vector autoregressive models (i.e. the integral solution to linear first-order stochastic differential equations).
 
 
 ## Installation
