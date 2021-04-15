@@ -1,9 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
 # ctnet
 An `R` package to aid researchers analyse experience sampling data using a Continuous-Time Dynamical Network approach. The package takes CT-VAR model objects estimated using the [`ctsem` package](https://github.com/cdriveraus/ctsem) and processes the output, allowing researchers to a) obtain estimated path-specific effects and centrality measures b) quantify the uncertainty around those measures in the form of confidence/credible intervals (depending on the procedure used to estimated the model with `ctsem`) c) to simulate press and pulse interventions based on the estimated model and d) plot point estimates and credible intervals for different metrics as a function of the time-interval.  
 
@@ -25,7 +19,7 @@ The current version of this package focuses on obtaining point estimates and con
 ### Fitting a model in ctsem
 In order to fit a four-variable CT-VAR(1) model in `ctsem` we would need to run something like the following code:
 
-```{r, eval = FALSE}
+```r
 # library(ctnet)
 library(ctsem)
 
@@ -56,7 +50,7 @@ simfit <- ctsem::ctStanFit(datalong = simdata, ctstanmodel = fitmodel, optimize 
 
 This code fits a model using Bayesian estimation, saving all of the necessary output in the `fit` object. A summary, such as point estimates and credible intervals can be obtained using `summary(fit)`. Point estimates can be obtained in matrix form, for example by running
 
-```{r}
+```r
 ctsem_results <- summary(simfit)
 drift_est <- matrix(ctsem_results$parmatrices[ctsem_results$parmatrices$matrix == "DRIFT","Mean"],
        4,4,byrow = T)
@@ -76,20 +70,20 @@ If Bayesian estimation was used, then `post_drift` object now contains $1000$ po
 
 With these pieces of `ctsem` output, we can now turn to analysing the estimated network structure using `ctnet`. For example, we can obtain the point estimates of the centrality metrics at a particular time interval, say $\Delta t = 1$ using the `ctCentrality()` function
 
-```{r}
+```r
 ctCentrality(drift = drift_est, dt = 1)
 ```
 
 This function returns the total and indirect effect centrality for each variable at that time-interval. Alternatively, if we want point estimates *and* CIs we need to supply the `post_drift` object created above to the `posterior` argument.
 
-```{r}
+```r
 ctCentrality(drift = drift_est, dt = 1, posterior = post_drift)
 ```
 which returns the lower, median, and upper bound of the centrality estimates. 
 
 Typically, we are interested not only in the values of the centrality metrics at one particular interval, but also in how they change as a function of the time-interval. To calculate this we can simply apply the `ctCentrality()` function over a range of values for the time-interval. This can be done using `apply` or equivalently, by calling calling the `plotCentrality()` function with argument `plot = FALSE`
 
-```{r, eval = FALSE}
+```r
 dts = seq(0,2,.01)
 centrality_CI <- sapply(dts,function(dt){
   ctCentrality(drift_est,dt,listout=F, posterior = post_drift)
@@ -102,7 +96,7 @@ centrality_CI <- plotCentrality(posterior = post_drift, dts = seq(0,2,.01),plot 
 
 With this obtained, we can now visualize the estimated centrality measures, and their CIs, across time-intervals
 
-```{r}
+```r
 plotCentrality(CI_obj = centrality_CI, dts = seq(0,2,.01),plot = TRUE)
 ```
 ![Output from plotCentrality.](man/figures/figure1.png)
@@ -114,7 +108,7 @@ Several other functions are supplied. The calculation of total, direct and indir
 
 The final function of interest is `plotPhi`. This allows users to easily plot the model-implied lagged effects $\boldsymbol{\Phi}(\Delta t)$ and their CIs for a range of time-intervals. The functionality is very similar to the `plotCentrality` functions. Users are recommended to first obtain the posterior CIs of $\boldsymbol{\Phi}(\Delta t)$ as an object (as this can take some time to run) before plotting using either of the two equivalent approaches
 
-```{r}
+```r
 phidt_CI <- sapply(dts,function(dt){
   getCIs(post_drift,simplify=TRUE, FUN=expm::expm, const = dt)
 }, simplify = "array")
@@ -124,7 +118,7 @@ phidt_CI <- plotPhi(posterior = post_drift, dts = dts, plot = FALSE )
 
 With this obtained, we can now visualize the estimated effects, and their CIs, across time-intervals. We can choose to visualize all effects at once by using the argument `index = "all"`; only the autoregressive paramters using `index = "AR"`; or the cross-lagged parameters using `index = "CL"`. Alternatively, $q$ specific parameters can be shown by supplying a $q \times 2$ matrix of row and column indices to `index`. 
 
-```{r}
+```r
  plotPhi(CI_obj = phidt_CI, dts = dts,  index = "AR", leg = TRUE)
  plotPhi(CI_obj = phidt_CI, dts = dts,  index = matrix(c(1,2),1,2), colvec = NULL, leg = TRUE)
 ```
