@@ -7,9 +7,9 @@ The package takes either a drift matrix or estimated CT-VAR model object from th
   - c) to simulate interventions based on the estimated model
   - d) plot point estimates and credible intervals for different metrics as a function of the time-interval, as shown below
   
-<center>
+
   ![Output from plotPhi 1](man/figures/figure2a.png)
-</center>
+
 
 ## Background
 This repository contains an `R` package used by Ryan \& Hamaker (in press)[[PsyArXiv]](https://psyarxiv.com/2ambn/) to aid researchers in conducting dynamical network analysis using continuous-time first-order vector autoregressive models (i.e. the integral solution to linear first-order stochastic differential equations).
