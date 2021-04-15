@@ -1,8 +1,18 @@
 # ctnet
-An `R` package to aid researchers analyse experience sampling data using a Continuous-Time Dynamical Network approach. The package takes CT-VAR model objects estimated using the [`ctsem` package](https://github.com/cdriveraus/ctsem) and processes the output, allowing researchers to a) obtain estimated path-specific effects and centrality measures b) quantify the uncertainty around those measures in the form of confidence/credible intervals (depending on the procedure used to estimated the model with `ctsem`) c) to simulate press and pulse interventions based on the estimated model and d) plot point estimates and credible intervals for different metrics as a function of the time-interval.  
+An `R` package to aid researchers in analyzing experience sampling data using a Continuous-Time Dynamical Network approach. 
+
+The package takes either a drift matrix or estimated CT-VAR model object from the [`ctsem` package](https://github.com/cdriveraus/ctsem) and processes the output, allowing researchers to:
+  - a) obtain estimated path-specific effects and centrality measures 
+  - b) quantify the uncertainty around those measures in the form of confidence/credible intervals (depending on the procedure used to estimated the model with `ctsem`) 
+  - c) to simulate interventions based on the estimated model
+  - d) plot point estimates and credible intervals for different metrics as a function of the time-interval, as shown below
+  
+<center>
+  ![Output from plotPhi 1](man/figures/figure2a.png)
+</center>
 
 ## Background
-This repository contains an `R` package used by Ryan \& Hamaker (in press)[[PsyArXiv]](https://psyarxiv.com/ryg69/) to aid researchers in conducting dynamical network analysis using continuous-time first-order vector autoregressive models (i.e. the integral solution to linear first-order stochastic differential equations).
+This repository contains an `R` package used by Ryan \& Hamaker (in press)[[PsyArXiv]](https://psyarxiv.com/2ambn/) to aid researchers in conducting dynamical network analysis using continuous-time first-order vector autoregressive models (i.e. the integral solution to linear first-order stochastic differential equations).
 
 
 ## Installation
