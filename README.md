@@ -18,12 +18,15 @@ devtools::install_github("ryanoisin/ctnet")
 ```
 
 ## Usage
-The functions in this package primarily rely on output from `ctsem` models as input, although in principle they can also be used to calculate and visualize different metrics using only a drift matrix as input. The current version focuses on obtaining point estimates and confidence intervals based on either a single subject ctsem model, or the fixed effects of a multilevel model. As an illustration, we provide a long single-subject time-series `data/simdata.rda`.
+The functions in this package primarily rely on output from `ctsem` models as input, although in principle they can also be used to calculate and visualize different metrics using only a drift matrix as input. The main inputs that are needed to work with the packages are a) a `ctsem::ctStanFit()` object, and b) a `ctsem::ctExtract()` object to allow for confidence/credible intervals. For more details on how to use the `ctsem` package we refer readers to the documentation of that package [here](https://github.com/cdriveraus/ctsem)
 
+The current version of this package focuses on obtaining point estimates and confidence intervals based on either a single subject ctsem model, or the *fixed effects* of a multilevel model. As an illustration, we provide a long single-subject time-series `data/simdata.rda`.
+
+### Fitting a model in ctsem
 In order to fit a four-variable CT-VAR(1) model in `ctsem` we would need to run something like the following code:
 
-
 ```{r, eval = FALSE}
+# library(ctnet)
 library(ctsem)
 
 nvar <- 4
@@ -47,7 +50,9 @@ fitmodel$pars$indvarying <- FALSE
 
 # Set optimize = TRUE for frequentist estimation and optimize = FALSE for Bayesian estimation
 simfit <- ctsem::ctStanFit(datalong = simdata, ctstanmodel = fitmodel, optimize = TRUE)
+
 ```
+
 
 This code fits a model using Bayesian estimation, saving all of the necessary output in the `fit` object. A summary, such as point estimates and credible intervals can be obtained using `summary(fit)`. Point estimates can be obtained in matrix form, for example by running
 
@@ -84,19 +89,24 @@ which returns the lower, median, and upper bound of the centrality estimates.
 
 Typically, we are interested not only in the values of the centrality metrics at one particular interval, but also in how they change as a function of the time-interval. To calculate this we can simply apply the `ctCentrality()` function over a range of values for the time-interval. This can be done using `apply` or equivalently, by calling calling the `plotCentrality()` function with argument `plot = FALSE`
 
-```{r, eval = F}
+```{r, eval = FALSE}
+dts = seq(0,2,.01)
 centrality_CI <- sapply(dts,function(dt){
   ctCentrality(drift_est,dt,listout=F, posterior = post_drift)
 }, simplify = "array")
 
 centrality_CI <- plotCentrality(posterior = post_drift, dts = seq(0,2,.01),plot = FALSE)
+
 ```
+
 
 With this obtained, we can now visualize the estimated centrality measures, and their CIs, across time-intervals
 
 ```{r}
 plotCentrality(CI_obj = centrality_CI, dts = seq(0,2,.01),plot = TRUE)
 ```
+![Output from plotCentrality.](man/figures/figure1.png)
+
 Note that the second and last steps can be combined by supplying the posterior object and `plot = TRUE`, but this will take a while to run.
 
 ### Other functions and analyses
@@ -106,7 +116,7 @@ The final function of interest is `plotPhi`. This allows users to easily plot th
 
 ```{r}
 phidt_CI <- sapply(dts,function(dt){
-  getCIs(post_drift,simplify=TRUE, FUN=expm, const = dt)
+  getCIs(post_drift,simplify=TRUE, FUN=expm::expm, const = dt)
 }, simplify = "array")
 
 phidt_CI <- plotPhi(posterior = post_drift, dts = dts, plot = FALSE )
@@ -115,10 +125,11 @@ phidt_CI <- plotPhi(posterior = post_drift, dts = dts, plot = FALSE )
 With this obtained, we can now visualize the estimated effects, and their CIs, across time-intervals. We can choose to visualize all effects at once by using the argument `index = "all"`; only the autoregressive paramters using `index = "AR"`; or the cross-lagged parameters using `index = "CL"`. Alternatively, $q$ specific parameters can be shown by supplying a $q \times 2$ matrix of row and column indices to `index`. 
 
 ```{r}
- plotPhi(CI_obj = phidt_CI, dts = dts,  index = "all", leg = FALSE)
+ plotPhi(CI_obj = phidt_CI, dts = dts,  index = "AR", leg = TRUE)
  plotPhi(CI_obj = phidt_CI, dts = dts,  index = matrix(c(1,2),1,2), colvec = NULL, leg = TRUE)
 ```
-
+![Output from plotPhi 1](man/figures/figure2a.png)
+![Output from plotPhi 2](man/figures/figure2b.png)
 
 ## Contact Details
 
