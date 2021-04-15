@@ -106,7 +106,7 @@ Note that the second and last steps can be combined by supplying the posterior o
 ### Other functions and analyses
 Several other functions are supplied. The calculation of total, direct and indirect effects, as described by Ryan \& Hamaker (in press), is implemented in the functions `TE`, `DE` and `IE`. `simPress` allows users to simulate the effects of different press interventions on a given CT-VAR(1) system, though CIs are not implemented. The function `getCIs` allows you to get point estimates and CIs for any arbitrary function of the drift matrix, using `post_drift` as input as above for the centrality measures. 
 
-The final function of interest is `plotPhi`. This allows users to easily plot the model-implied lagged effects $\boldsymbol{\Phi}(\Delta t)$ and their CIs for a range of time-intervals. The functionality is very similar to the `plotCentrality` functions. Users are recommended to first obtain the posterior CIs of $\boldsymbol{\Phi}(\Delta t)$ as an object (as this can take some time to run) before plotting using either of the two equivalent approaches
+The final function of interest is `plotPhi`. This allows users to easily plot the model-implied lagged effects $\Phi(\Delta t)$ and their CIs for a range of time-intervals. The functionality is very similar to the `plotCentrality` functions. Users are recommended to first obtain the posterior CIs of $\Phi(\Delta t)$ as an object (as this can take some time to run) before plotting using either of the two equivalent approaches
 
 ```r
 phidt_CI <- sapply(dts,function(dt){
