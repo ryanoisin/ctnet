@@ -16,7 +16,13 @@
 #' @param colvec vector of length `q` of colors to be used for plotting. Defaults to NULL. If not supplied, function will plot
 #' a spectrum of `q` colors from blue to red using `colorRampPallete()`
 #' @param leg logical. Include a legend or not. Defaults to TRUE
-#'
+#' @param poly logical. Draw a shaded polygon to represent the CIs
+#' @param makeaxis logical. Draw x and y axis and ticks. Defaults to TRUE
+#' @param main. Title for the plot
+#' @param xlab. x-axis label
+#' @param ylab. y-axis label
+#' @param ind. Optional argument, which indices to plot.
+#' 
 #' @return  Returns a plot by default. If  `plot` is set to FALSE and `posterior` is supplied, returns an object of type `CI_obj`. This
 #' can be used to do all necessary (slow) operations first, then used as input for a future plotting call calculations
 #' @seealso \code{\link{plotCentrality}}
@@ -31,10 +37,17 @@ plotPhi <-
            plot = TRUE,
            index = "all",
            colvec = NULL,
-           leg = TRUE) {
+           leg = TRUE,
+           poly = TRUE,drawaxis = TRUE,
+           main = "Lagged effects as a function of Time-Interval",
+           xlab = "Time-Interval",
+           ylab = "Effect Size",
+           ind = NULL,
+           cex.lab = 1) {
     if (is.null(CI_obj)) {
-      if (is.null(drift) & is.null(posterior)){ stop("you must supply either CI_obj or a drift matrix and/or posterior object")}
-      if (!is.null(posterior)){
+      if (is.null(drift) &
+          is.null(posterior)){
+        stop("you must supply either CI_obj or a drift matrix and/or posterior object")} else{
       CI_obj <- sapply(dts, function(dt) {
         getCIs(posterior,
                simplify = TRUE,
@@ -48,8 +61,9 @@ plotPhi <-
       return(CI_obj)
     } else {
       # extract number of dimensions
-      p <- sqrt(dim(CI_obj)[2])
+      if(is.null(CI_obj)) p <- nrow(drift) else p <- sqrt(dim(CI_obj)[2])
       
+      # if(is.null(ind)){
       # get matrix of indices
       if (is.matrix(index) ||
           is.data.frame(index)) {
@@ -65,6 +79,7 @@ plotPhi <-
       # So that we don't have to transpose CI_obj, need to map matrix indices to column numbers
       mcomp <- cbind(expand.grid(1:p, 1:p)[, c(1, 2)], 1:p ^ 2)
       
+      
       ind <- rep(NA, nrow(m))
       for (i in 1:nrow(m)) {
         for (j in 1:nrow(mcomp)) {
@@ -74,6 +89,7 @@ plotPhi <-
             next
         }
       }
+      # }
       
       # create colors automatically if not supplied
       if (is.null(colvec))
@@ -84,17 +100,23 @@ plotPhi <-
       
       plot.new()
       plot.window(xlim = c(dts[1], max(dts)), ylim = ylim)
+      if(drawaxis){
       axis(1)
       axis(2)
-      title(main = "Lagged effects as a function of Time-Interval",
-            xlab = "Time-Interval",
-            ylab = "Effect size")
+      }
+      title(main = main,
+            xlab = xlab,
+            ylab = ylab)
       abline(h = 0, col = "grey")
       
       for (i in 1:length(ind)) {
         lines(dts, CI_obj[2, ind[i], ], col = colvec[i])
         lines(dts, CI_obj[1, ind[i], ], col = colvec[i], lty = 2)
         lines(dts, CI_obj[3, ind[i], ], col = colvec[i], lty = 2)
+        if(isTRUE(poly)){
+        polygon(x = c(dts, rev(dts)), 
+                y = c( CI_obj[1, ind[i], ], rev( CI_obj[3, ind[i], ])),
+                col = alpha(colvec[i], .1), lty = 0)}
       }
       
       if (leg == TRUE) {
@@ -108,7 +130,7 @@ plotPhi <-
           as.expression(legtext),
           lty = 1,
           col = colvec,
-          cex = 1,
+          cex = cex.lab,
           xpd = TRUE,
           bty = "n"
         )
