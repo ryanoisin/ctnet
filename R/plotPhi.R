@@ -33,9 +33,8 @@ plotPhi <-
            colvec = NULL,
            leg = TRUE) {
     if (is.null(CI_obj)) {
-      if (is.null(drift) &
-          is.null(posterior))
-        stop("you must supply either CI_obj or a drift matrix and/or posterior object")
+      if (is.null(drift) & is.null(posterior)){ stop("you must supply either CI_obj or a drift matrix and/or posterior object")}
+      if (!is.null(posterior)){
       CI_obj <- sapply(dts, function(dt) {
         getCIs(posterior,
                simplify = TRUE,
@@ -43,7 +42,7 @@ plotPhi <-
                const = dt)
       }, simplify = "array")
       
-    }
+    }}
     
     if (plot == FALSE) {
       return(CI_obj)
