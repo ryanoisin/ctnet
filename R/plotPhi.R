@@ -22,6 +22,8 @@
 #' @param xlab. x-axis label
 #' @param ylab. y-axis label
 #' @param ind. Optional argument, which indices to plot.
+#' @param cex.lab text size for labels
+#' @param legtext Default option NULL generates custom legend text using greek Phi notation and subscripts. Otherwise, supply text which be parsed by as.expression, e.g. a list of bquote text
 #' 
 #' @return  Returns a plot by default. If  `plot` is set to FALSE and `posterior` is supplied, returns an object of type `CI_obj`. This
 #' can be used to do all necessary (slow) operations first, then used as input for a future plotting call calculations
@@ -43,7 +45,8 @@ plotPhi <-
            xlab = "Time-Interval",
            ylab = "Effect Size",
            ind = NULL,
-           cex.lab = 1) {
+           cex.lab = 1,
+           legtext = NULL) {
     if (is.null(CI_obj)) {
       if (is.null(drift) &
           is.null(posterior)){
@@ -120,10 +123,11 @@ plotPhi <-
       }
       
       if (leg == TRUE) {
+        if(is.null(legtext)){
         legtext <- as.vector(unlist(apply(m, 1, function(row) {
           bquote(Phi[.(paste0(row[1], row[2]))])
         })))
-        
+        }
         
         legend(
           "topright",

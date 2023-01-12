@@ -12,7 +12,15 @@ plotPhi(
   plot = TRUE,
   index = "all",
   colvec = NULL,
-  leg = TRUE
+  leg = TRUE,
+  poly = TRUE,
+  drawaxis = TRUE,
+  main = "Lagged effects as a function of Time-Interval",
+  xlab = "Time-Interval",
+  ylab = "Effect Size",
+  ind = NULL,
+  cex.lab = 1,
+  legtext = NULL
 )
 }
 \arguments{
@@ -39,6 +47,22 @@ giving the row and column of the `q` parameters to be plotted. Character strings
 a spectrum of `q` colors from blue to red using `colorRampPallete()`}
 
 \item{leg}{logical. Include a legend or not. Defaults to TRUE}
+
+\item{poly}{logical. Draw a shaded polygon to represent the CIs}
+
+\item{cex.lab}{text size for labels}
+
+\item{legtext}{Default option NULL generates custom legend text using greek Phi notation and subscripts. Otherwise, supply text which be parsed by as.expression, e.g. a list of bquote text}
+
+\item{makeaxis}{logical. Draw x and y axis and ticks. Defaults to TRUE}
+
+\item{main.}{Title for the plot}
+
+\item{xlab.}{x-axis label}
+
+\item{ylab.}{y-axis label}
+
+\item{ind.}{Optional argument, which indices to plot.}
 }
 \value{
 Returns a plot by default. If  `plot` is set to FALSE and `posterior` is supplied, returns an object of type `CI_obj`. This
